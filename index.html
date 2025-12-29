@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Shelter</title>
+
+    <!-- A-Frame -->
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+
+    <!-- Start Screen -->
+    <div id="start-screen">
+      <h1>Shelter</h1>
+      <p>You've crashed landed in a frozen wilderness. A cabin's out there somewhere. Find it before you freeze to death!</p>
+      <p>Manage your health to survive.</p>
+      <button id="start-button">START</button>
+    </div>
+
+    <!-- Timer -->
+    <div id="timer" style="display:none">0</div>
+    <div id="status" style="display:none"></div>
+
+    <!-- Dynamic Health/Temperature Bar -->
+    <div id="health-bar-container">
+      <div id="health-bar-fill"></div>
+    </div>
+
+    <!-- End Screen -->
+    <div id="end-screen">
+      <h1>You Survived!</h1>
+      <p>You found the cabin and secured SHELTER.
+        Refresh the page to play again.
+    </p>
+    </div>
+
+
+    <a-scene fog="type: exponential; color: #0a0a0a; density: 0.08"> <!-- Current fog density: 0.08 -->
+      
+      <!-- LIGHTING (fog density: 0.08)  -->
+      <a-entity light="type: ambient; intensity: 0.5"></a-entity>
+      <a-entity light="type: directional; intensity: 0.6" position="1 4 2"></a-entity>
+
+      <!-- PLAYER CAMERA -->
+      <a-entity
+        id="player"
+        position="0 1.6 0"
+        camera
+        wasd-controls ="acceleration: 18" 
+        look-controls>
+      </a-entity>
+
+      <!-- SKY -->
+      <a-sky color="#87CEEB"></a-sky>
+
+      <!-- SNOW PARTICLES -->
+      <a-entity id="snow"></a-entity>
+
+
+      <!-- WIND AMBIENT SOUND -->
+        <a-sound id="wind-sound" src="assets/sounds/wind/wind.mp3" autoplay="false" loop="true" volume=".9" positional="false"></a-sound>
+
+      <!-- CAMPFIRE MODEL (132 0 115) -->
+      <a-entity id="campfire"
+        gltf-model="assets/models/campfire/campfire.glb"
+        position="145 0 110"
+        scale="0.01 0.01 0.01">
+        <a-entity light="type: point; color: #ff6600; intensity: 1.0; distance: 15; decay: 2"></a-entity>
+          <a-sound id="campfire-sound" src="assets/sounds/campfire/fire.mp3" autoplay="false" loop="true" volume="0.5" distance="0.3"></a-sound>
+      </a-entity>
+
+      <!-- GROUND -->
+      <a-entity
+        id="ground"
+        gltf-model="assets/models/ground/old_snow.glb"
+        position="0 0 0"
+        scale="500 1 500"
+        rotation="0 0 0">
+      </a-entity>
+
+      <!-- AIRPLANE CRASH SITE -->
+      <a-entity
+        id="airplane"
+        gltf-model="assets/models/crashsite/airplane.glb"
+        position="-30 4 -5"
+        scale="50 50 50"
+        rotation="5 0 0">
+          <a-sound id="crash-sound" src="assets/sounds/crash/crash.mp3" autoplay="false" volume="30"></a-sound>
+      </a-entity>
+
+      <!-- CABIN Section -->
+      <a-entity
+        id="cabin"
+        gltf-model="assets/models/cabin/log_cabin.glb"
+        position="140 0 110"
+        scale=".45 .45 .45"
+        rotation=" 0 -90 0">
+      </a-entity>
+
+      <a-entity
+        id="cabin_pile"
+        gltf-model="assets/models/cabin/log_pile.glb"
+        position="141.3 0 113.5"
+        scale="1 1 1"
+        rotation=" 0 0 0">
+      </a-entity>
+
+      <a-entity
+        id="table"
+        gltf-model="assets/models/cabin/log_table.glb"
+        position="137.8 0 113.58"
+        scale=".0055 .0055 .0055"
+        rotation=" 0 0 0">
+      </a-entity>
+
+      <a-entity
+        id="backpack"
+        gltf-model="assets/models/cabin/backpack.glb"
+        position="142.8 1 111.5"
+        scale=".002 .002 .002"
+        rotation=" 0 180 0">
+      </a-entity>
+
+      <a-entity
+        id="table2"
+        gltf-model="assets/models/cabin/table2.glb"
+        position="138 0 112.2"
+        scale="0.0045 0.0045 0.0045"
+        rotation=" 0 270 0">
+      </a-entity>
+
+      <a-entity
+        id="deer_head"
+        gltf-model="assets/models/cabin/deer_head.glb"
+        position="143.4 2 110"
+        scale=".5 .5 .5"
+        rotation=" 0 270 0">
+      </a-entity>
+
+      <a-entity
+        id="simple_axe"
+        gltf-model="assets/models/cabin/simple_axe.glb"
+        position="137.5 2 112.8"
+        scale="1 1 1"
+        rotation=" 30 90 0">
+      </a-entity>
+
+      <a-entity
+        id="simple_axe"
+        gltf-model="assets/models/cabin/simple_axe.glb"
+        position="137.5 2 112.75"
+        scale="1 1 1"
+        rotation=" 30 280 0">
+      </a-entity>
+
+      <a-entity
+        id="chest"
+        gltf-model="assets/models/cabin/chest.glb"
+        position="138 .5 107.8"
+        scale="0.004 0.004 0.01"
+        rotation=" 0 270 0">
+      </a-entity>
+
+      <a-entity
+        id="campfire2"
+        gltf-model="assets/models/cabin/campfire2.glb"
+        position="140 0 100"
+        scale="0.01 0.01 0.01"
+        rotation=" 0 270 0">
+        <a-entity light="type: point; color: #ff6600; intensity: 30.0; distance: 15; decay: 2"></a-entity>
+      </a-entity>
+      <!-- End of CABIN Section -->
+
+      <!-- Bush -->
+       <a-entity gltf-model="assets/models/bush/bush.glb" position="-42 0 87" scale="0.4 0.4 0.4"></a-entity>
+        <a-entity gltf-model="assets/models/bush/bush.glb" position="120 0 -33" scale="0.4 0.4 0.4"></a-entity>
+        <a-entity gltf-model="assets/models/bush/bush.glb" position="-95 0 -112" scale="0.4 0.4 0.4"></a-entity>
+        <a-entity gltf-model="assets/models/bush/bush.glb" position="66 0 140" scale="0.4 0.4 0.4"></a-entity>
+        <a-entity gltf-model="assets/models/bush/bush.glb" position="-130 0 25" scale="0.4 0.4 0.4"></a-entity>
+        <a-entity gltf-model="assets/models/bush/bush.glb" position="30 0 -90" scale="0.4 0.4 0.4"></a-entity>
+        <a-entity gltf-model="assets/models/bush/bush.glb" position="100 0 5" scale="0.4 0.4 0.4"></a-entity>
+        <a-entity gltf-model="assets/models/bush/bush.glb" position="-70 0 -60" scale="0.4 0.4 0.4"></a-entity>
+        <a-entity gltf-model="assets/models/bush/bush.glb" position="0 0 120" scale="0.4 0.4 0.4"></a-entity>
+        <a-entity gltf-model="assets/models/bush/bush.glb" position="85 0 110" scale="0.4 0.4 0.4"></a-entity>
+        <!-- End of Bush -->
+
+        <!-- Water -->
+      <a-entity
+        id="water"
+        gltf-model="assets/models/water/frozen_lake.glb"
+        position="65 -8 -49"
+        scale="2.8 2.8 2.8"
+        rotation=" 0 0 0">
+      </a-entity>
+
+      <a-entity
+        id="water"
+        gltf-model="assets/models/water/frozen_lake.glb"
+        position="-65 -8 100"
+        scale="2.8 2.8 2.8"
+        rotation=" 0 0 0">
+      </a-entity>
+      <!-- End of Water -->
+
+      <!-- BEAR TRAP -->
+      <a-entity
+        id="bear_trap"
+        gltf-model="assets/models/bear/bear_trap.glb"
+        position="-59 0 0"
+        scale="5 5 5"
+        rotation=" 0 0 0">
+      </a-entity>
+
+      <a-entity
+        id="bear_trap"
+        gltf-model="assets/models/bear/bear_trap.glb"
+        position="50 0 0"
+        scale="5 5 5"
+        rotation=" 0 0 0">
+      </a-entity>
+
+      <a-entity
+        id="bear_trap"
+        gltf-model="assets/models/bear/bear_trap.glb"
+        position="50 0 90"
+        scale="5 5 5"
+        rotation=" 0 0 0">
+      </a-entity>
+
+      <a-entity
+        id="bear_trap"
+        gltf-model="assets/models/bear/bear_trap.glb"
+        position="120 0 90"
+        scale="5 5 5"
+        rotation=" 0 0 0">
+      </a-entity>
+      <!-- End of BEAR TRAP -->
+
+      <!-- SNOWDRIFTS -->
+      <a-entity
+        id="snowdrift_1"
+        geometry="primitive: box; width: 20; height: 5; depth: 20;"
+        material="transparent: true; opacity: 0;"
+        position="-20 0 -20">
+      </a-entity>
+
+      <a-entity
+        id="snowdrift_2"
+        geometry="primitive: box; width: 15; height: 4; depth: 15;"
+        material="transparent: true; opacity: 0;"
+        position="80 0 60">
+      </a-entity>
+
+      <a-entity
+        id="snowdrift_3"
+        geometry="primitive: box; width: 25; height: 5; depth: 25;"
+        material="transparent: true; opacity: 0;"
+        position="0 0 100">
+      </a-entity>
+
+      <a-entity
+        id="snowdrift_4"
+        geometry="primitive: box; width: 10; height: 5; depth: 10;"
+        material="transparent: true; opacity: 0;" 
+        position="-50 0 120">
+      </a-entity>
+      <!-- End of SNOWDRIFTS -->
+
+
+      <!--TREES 1-->
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="4 0 -3" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-3 0 -5" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-8 0 -2" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="6 0 4" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="20 0 -10" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-15 0 15" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="25 0 20" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-25 0 -25" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="0 0 30" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="30 0 0" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-30 0 0" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="0 0 -30" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="40 0 -40" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-40 0 40" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="50 0 10" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-50 0 -10" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="10 0 50" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-10 0 -50" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="60 0 -20" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-60 0 20" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="20 0 60" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-20 0 -60" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="70 0 0" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-70 0 0" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="0 0 70" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="0 0 -70" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="80 0 -30" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-80 0 30" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="30 0 80" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-30 0 -80" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="90 0 10" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-90 0 -10" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="10 0 90" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-10 0 -90" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="100 0 -40" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-100 0 40" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="40 0 100" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-40 0 -100" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="110 0 0" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-110 0 0" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="0 0 110" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="0 0 -110" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="120 0 -50" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-120 0 50" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="50 0 120" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-50 0 -120" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="125 0 60" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-125 0 -60" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="60 0 125" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-60 0 -125" scale="1 2 1"></a-entity>
+
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="120 0 160" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="-120 0 160" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="115 0 125" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="113 0 125" scale="1 2 1"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow.glb" position="30 0 50" scale="1 2 1"></a-entity>
+
+      <!--TREES 2 -->
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="30 3 -8" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="13 3 -5" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-12 3 -10" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="2 3 -12" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-40 3 20" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="45 3 -65" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-55 3 55" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="75 3 35" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-85 3 -45" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="95 3 -90" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-95 3 90" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="89 3 70" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-89 3 -70" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="115 3 -110" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-115 3 110" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="125 3 120" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-125 3 -120" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="0 3 125" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="0 3 -125" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="65 3 115" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-65 3 -115" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-35 3 105" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="35 3 -105" scale="3 5 3"></a-entity>
+      
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-150 3 -70" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="145 3 -110" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-200 3 110" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="132 3 120" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-167 3 -120" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-142 3 125" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-162 3 -125" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-164 3 115" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-169 3 -115" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="128 3 105" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="125 3 105" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="40 3 70" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="50 3 50" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="60 3 90" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="160 3 50" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="140 3 50" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="150 3 20" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="100 3 -10" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="100 3 30" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="120 3 35" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="50 3 150" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="100 3 150" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="100 3 100" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="60 3 70" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="10 3 40" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-20 3 40" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-35 3 75" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-50 3 -35" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-50 3 -65" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="-69 3 -75" scale="3 5 3"></a-entity>
+    
+      <!-- Around cabin -->
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="150 3 110" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="150 3 98" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="125 3 90" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="120 3 88" scale="3 5 3"></a-entity>
+      <a-entity gltf-model="assets/models/tree/tree_snow2.glb" position="130 3 95" scale="3 5 3"></a-entity>
+
+    </a-scene>
+
+  </body>
+</html>

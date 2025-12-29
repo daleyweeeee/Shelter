@@ -1,0 +1,97 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+#start-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: Arial, sans-serif;
+    z-index: 1000;
+    text-align: center;
+}
+
+#start-screen h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+#start-screen p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+#start-button {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    background-color: #4CAF50; /* Green button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#start-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+#end-screen {
+    display:none; 
+    position:absolute; 
+    top:0; left:0; width:100%; height:100%; 
+    background-color:black; 
+    color:white; 
+    text-align:center; 
+    font-size:32px; 
+    padding-top:200px; 
+    z-index:200;
+}
+
+/* --- Dynamic Health Bar --- */
+#health-bar-container {
+    position: absolute;
+    top: 10px; /* Adjust top position as needed */
+    right: 10px; /* Position on the right side */
+    width: 200px; /* Total width of the bar */
+    height: 20px; /* Height of the bar */
+    background-color: #333; /* Background color (looks like empty part of bar) */
+    border: 2px solid #555; /* Border for the bar */
+    border-radius: 5px; /* Rounded corners */
+    z-index: 10; /* Ensure it's above the 3D scene */
+    box-sizing: border-box; /* Include border in width/height */
+}
+
+#health-bar-fill {
+    height: 100%; /* Fill the container vertically */
+    width: 100%; /* Start full width (will be updated by JS) */
+    background-color: #4CAF50; /* Green color for full health */
+    transition: width 0.5s linear; /* Smooth transition when width changes */
+    border-radius: 3px; /* Slightly rounded corners for the fill */
+}
+
+#status {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px;
+  color: #fff;
+  text-shadow: 1px 1px 5px black;
+  z-index: 100;
+  display: none; /* initially hidden */
+}
+#status.visible {
+  display: block; /* show when visible class is added */
+}

@@ -1,0 +1,16 @@
+{
+  "name": "shelter",
+  "version": "1.0.0",
+  "description": "You woke up from a crash and freezing cold. You need to find shelter before you freeze to death. There's a cabin nearby, explore the forest and find your way to the cabin to survive the night.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["aframe", "nodejs", "express", "3d", "game", "survival", "forest"],
+  "author": "James Dale G. Racho",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
